@@ -13,7 +13,7 @@ while True:
 
     if error:
         print(Fore.RED, end="")
-        print(error.as_string())
+        print(error.as_string(), end="")
         print(Fore.WHITE)
     else:
         print(result, end='\n\n')
