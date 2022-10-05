@@ -6,7 +6,7 @@ os.system('cls||clear')
 
 while True:
     text = input("Basic>")
-    if text == 'exit':
+    if text.strip() == 'exit':
         os.system('cls||clear')
         break
     result, error = basic.run('<stdin>', text)
