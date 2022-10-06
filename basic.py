@@ -222,6 +222,7 @@ class LEXER:
         tok_type = TT_KEYWORD if id_str in KEYWORDS else TT_IDENTIFIER
         return Token(tok_type, id_str, pos_start, self.pos)
 
+
 #####################
 # NODES
 #####################
@@ -290,9 +291,10 @@ class ParseResult:
     def register_advancement(self):
         self.advance_count += 1
 
-    def register(self, res=None):
+    def register(self, res):
         self.advance_count += res.advance_count
-        if res.error: self.error = res.error
+        if res.error:
+            self.error = res.error
         return res.node
 
     def success(self, node):
@@ -391,43 +393,43 @@ class Parser:
 
     def expr(self):
 
-            res = ParseResult()
+        res = ParseResult()
 
-            if self.current_tok.matches(TT_KEYWORD, 'VAR'):
-                res.register_advancement()
-                self.advance()
+        if self.current_tok.matches(TT_KEYWORD, 'VAR'):
+            res.register_advancement()
+            self.advance()
 
-                if self.current_tok.type != TT_IDENTIFIER:
-                    return res.failure(InvalidSyntaxError(
-                        self.current_tok.pos_start, self.current_tok.pos_end,
-                        "Expected identifier"
-                    ))
-
-                var_name = self.current_tok
-                res.register_advancement()
-                self.advance()
-
-                if self.current_tok.type != TT_EQ:
-                    return res.failure(InvalidSyntaxError(
-                        self.current_tok.pos_start, self.current_tok.pos_end,
-                        "Expected '='"
-                    ))
-
-                res.register_advancement()
-                self.advance()
-                expr = res.register(self.expr())
-                if res.error: return res
-                return res.success(VarAssignNode(var_name, expr))
-
-            node = res.register(self.bin_op(self.term, (TT_PLUS, TT_MINUS)))
-
-            if res.error:
+            if self.current_tok.type != TT_IDENTIFIER:
                 return res.failure(InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
-                    "Expected 'VAR', int, float, identifier, '+', '-' or '('"
+                    "Expected identifier"
                 ))
 
-            return res.success(node)
+            var_name = self.current_tok
+            res.register_advancement()
+            self.advance()
+
+            if self.current_tok.type != TT_EQ:
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    "Expected '='"
+                ))
+
+            res.register_advancement()
+            self.advance()
+            expr = res.register(self.expr())
+            if res.error: return res
+            return res.success(VarAssignNode(var_name, expr))
+
+        node = res.register(self.bin_op(self.term, (TT_PLUS, TT_MINUS)))
+
+        if res.error:
+            return res.failure(InvalidSyntaxError(
+                self.current_tok.pos_start, self.current_tok.pos_end,
+                "Expected 'VAR', int, float, identifier, '+', '-' or '('"
+            ))
+
+        return res.success(node)
 
     def bin_op(self, func_a, ops, func_b=None):
         if func_b == None:
@@ -538,6 +540,7 @@ class Context:
         self.parent_entry_pos = parent_entry_pos
         self.symbol_table = None
 
+
 #######################################
 # SYMBOL TABLE
 #######################################
@@ -552,7 +555,7 @@ class SymbolTable:
         value = self.symbols.get(name, None)
         if value is None and self.parent:
             return self.parent.get(name)
-            return value
+        return value
 
     def set(self, name, value):
         self.symbols[name] = value
