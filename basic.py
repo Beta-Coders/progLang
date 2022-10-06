@@ -555,6 +555,7 @@ class SymbolTable:
         value = self.symbols.get(name, None)
         if value is None and self.parent:
             return self.parent.get(name)
+
         return value
 
     def set(self, name, value):
