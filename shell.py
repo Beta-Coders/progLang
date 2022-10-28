@@ -16,4 +16,4 @@ while True:
         print(error.as_string(), end="")
         print(Fore.WHITE)
     elif result:
-        print(result, end='\n\n')
+        print(repr(result), end='\n\n')
