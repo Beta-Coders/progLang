@@ -6,6 +6,7 @@ os.system('cls||clear')
 
 while True:
     text = input("Basic>")
+    if text.strip() == "": continue
     if text.strip() == 'exit':
         os.system('cls||clear')
         break
@@ -16,4 +17,7 @@ while True:
         print(error.as_string(), end="")
         print(Fore.WHITE)
     elif result:
-        print(repr(result), end='\n\n')
+        if len(result.elements) == 1:
+            print(repr(result.elements[0]))
+        else:
+            print(repr(result))
