@@ -62,6 +62,12 @@ FUN sqroot()
     CLS()
     PRINT("Enter the number to get its Square Root:")
     VAR num1 = INPUT_INT()
+    WHILE num1<0 THEN
+        CLS()
+        PRINT("The number cannot be negative!!!!!")
+        PRINT("Enter the number again to get its Square Root:")
+        VAR num1 = INPUT_INT()
+    END
     VAR result = num1^0.5
     PRINT("RESULT:")
     PRINT(result)
