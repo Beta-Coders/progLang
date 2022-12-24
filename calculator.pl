@@ -111,19 +111,19 @@ WHILE loop == 1 THEN
     IF inp == 2 THEN
         sub()
     END
-    # call multi() function to find the multiplication
+    # call mult() function to find the multiplication
     IF inp == 3 THEN
         mul()
     END
-    # call division() function to find the division
+    # call div() function to find the division
     IF inp == 4 THEN
         div()
     END
-    # call sqr() function to find the square of a number
+    # call square() function to find the square of a number
     IF inp == 5 THEN
         square()
     END
-    # call srt() function to find the Square Root of the given number
+    # call sqroot() function to find the Square Root of the given number
     IF inp == 6 THEN
         sqroot()
     END
